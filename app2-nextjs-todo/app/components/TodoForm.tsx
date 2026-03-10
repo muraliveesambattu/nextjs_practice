@@ -15,7 +15,6 @@ export default function TodoForm({ onAdd }) {
     });
 
     setText("");
-    // onAdd();
   }
 
   return (
