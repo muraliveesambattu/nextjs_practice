@@ -44,6 +44,7 @@ export default function BlogPage() {
 
         setPosts(mockPosts);
         setLoading(false);
+        localStorage.setItem('posts',JSON.stringify(mockPosts))
     }, []);
 
     if (loading) {
@@ -61,8 +62,7 @@ export default function BlogPage() {
                             <h2 className="text-2xl font-semibold mb-2">{post.title}</h2>
                             <Link href={{
                                 pathname: `/blog/${slug}`,
-                                query: { post: JSON.stringify(post) }
-                            }}>
+                                }}>
                                 {post.title}
                             </Link>
 

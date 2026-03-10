@@ -1,25 +1,32 @@
-'use client';
+'use client'
 
-import { useParams } from "next/navigation";
+import React, { useEffect, useState } from 'react'
 
-export default function BlogPostPage() {
+interface PageProps {
+  params: Promise<{ slug: string }>
+}
 
-  const params = useParams();
-  const slug = params.slug as string;
-  console.log("BlogPostPage slug:", slug);
+const page: React.FC<PageProps> = ({ params }) => {
+  const [post, setPost] = useState<any>({})
+  const { slug } = React.use(params);
+  useEffect(() => {
+    const allPosts = JSON.parse(localStorage.getItem('posts') || '[]');
+    console.log(allPosts);
+    const singlepost: any = allPosts.find((p: any) => {
+      return p.title.toLowerCase().split(" ").join("-") == slug
+    });
+    console.log(singlepost);
+    setPost(singlepost)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">
-          {slug?.replace(/-/g, " ")}
-        </h1>
-
-        <p className="text-gray-700 mb-4">
-          This is a detailed view of the blog post with the slug:
-          <strong> {slug}</strong>.
-        </p>
-      </div>
+    <div>
+      {post && <div>
+        <h2>{post.title}</h2>
+        <p>{post.excerpt}</p>
+      </div>}
     </div>
-  );
+  )
 }
+
+export default page
